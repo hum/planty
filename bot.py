@@ -8,9 +8,8 @@ log = logging.getLogger(__name__)
 
 cog_commands = (
   'cogs.memes',
-  'cogs.roles',
   'cogs.xkcd',
-	'cogs.hn'
+  'cogs.hn'
 )
 
 class Planty(commands.Bot):
@@ -22,6 +21,7 @@ class Planty(commands.Bot):
       self.load_extension(command)
 
   async def on_ready(self):
+    print(">>> Planty logged in. Check the 'planty.log' file for logging messages.\nCTRL+C to exit.")
     log.info(f'Planty logged in: {self.user} (ID: {self.user.id})')
 
   async def process_commands(self, message):
