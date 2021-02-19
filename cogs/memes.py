@@ -1,3 +1,5 @@
+import logging
+
 from discord.ext import commands
 from random import choice
 
@@ -20,6 +22,8 @@ IMAGE_QUERY = """
 
 ADD_SUBREDDIT_QUERY = "INSERT INTO p_image_category (category_name) values ('%s') RETURNING category_id;"
 CHECK_IF_EXISTS_CATEGORY = "SELECT COUNT(*) FROM p_image_category WHERE category_name = '%s';"
+
+log = logging.getLogger(__name__)
 
 class Memes(commands.Cog):
   def __init__(self, bot):
