@@ -22,6 +22,17 @@ IMAGE_QUERY = """
 
 ADD_SUBREDDIT_QUERY = "INSERT INTO p_image_category (category_name) values ('%s') RETURNING category_id;"
 CHECK_IF_EXISTS_CATEGORY = "SELECT COUNT(*) FROM p_image_category WHERE category_name = '%s';"
+LIST_SUBREDDITS = "SELECT category_name FROM p_image_category;"
+
+ADD = 'add'
+REMOVE = 'remove'
+LIST = 'list'
+
+avail_actions = [
+  ADD,
+  REMOVE,
+  LIST
+]
 
 log = logging.getLogger(__name__)
 
@@ -40,9 +51,13 @@ class Memes(commands.Cog):
     await ctx.send(choice(result)[0])
 
   @commands.command(name='sub')
-  async def subreddit_update(self, ctx, action: str, subreddit_name: str):
+  async def subreddit_update(self, ctx, action: str, subreddit_name=""):
     if action in avail_actions:
       if action == ADD:
+        if subreddit_name == "":
+          await ctx.send("In order to add a new subreddit you need to specify it's name. \n```[prefix] sub add [subreddit_name]```")
+          return
+
         result = self.bot.db.select_query(CHECK_IF_EXISTS_CATEGORY % subreddit_name)
         count = result[0][0] # [(0,)]
 
@@ -58,6 +73,18 @@ class Memes(commands.Cog):
         # TODO:
         # Remove subreddit from DB
         return
+      elif action == LIST:
+        result = self.bot.db.select_query(LIST_SUBREDDITS)
+        if len(result) == 0:
+          return
+
+        subreddit_names = []
+
+        for value in result:
+          subreddit_names.append(value[0])
+
+        fmt = '```' + '\n'.join(subreddit_names) + '```'
+        await ctx.send(fmt)
 
 def setup(bot):
   bot.add_cog(Memes(bot))
