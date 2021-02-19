@@ -32,25 +32,24 @@ def set_logging():
       log.removeHandler(handler)
 
 def start_bot():
-	log = logging.getLogger()
-	loop = asyncio.get_event_loop()
+  log = logging.getLogger()
+  loop = asyncio.get_event_loop()
+  db = Db()
 
-	db = Db()
+  try:
+    pool = loop.run_until_complete(Db.create_pool(0, 4, config.postgresql))
+    if pool is not None:
+      db.pool = pool
 
-	try:
-		pool = loop.run_until_complete(Db.create_pool(0, 4, config.postgresql))
-		if pool is not None:
-			db.pool = pool
-			
-		bot = Planty()
-		bot.db = db
-		bot.run()
-	except Exception as e:
-		log.error(e)
+      bot = Planty()
+      bot.db = db
+      bot.run()
+  except Exception as e:
+    log.error(e)
 
 def main():
-	with set_logging():
-		start_bot()
+  with set_logging():
+    start_bot()
 
 if __name__ == '__main__':
-	main()
+  main()
