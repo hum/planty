@@ -42,7 +42,7 @@ class Db:
   def select_query(self, query: str):
     with self._get_conn() as (conn, cursor):
       cursor.execute(query) 
-      result_set = cursor.fetch_all()
+      result_set = cursor.fetchall()
 
       if len(result_set) > 0:
         conn.commit()
