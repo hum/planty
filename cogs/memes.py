@@ -1,4 +1,5 @@
 import logging
+import subprocess
 
 from discord.ext import commands
 from random import choice
@@ -54,13 +55,12 @@ class Memes(commands.Cog):
   @commands.command(name='img')
   async def update_images(self, ctx, cmd: str, days=14):
     if cmd == 'prune':
-      await ctx.send("🌱 Pruning images from the database...")
+      msg = await ctx.send("🌱 Pruning images from the database...")
       result = self.bot.db.delete_query(PRUNE_OLD_IMAGES % days)
-      await ctx.send("🌱 Deleted %d images, because they were older than %d days." % (result, days))
+      await msg.edit(content=msg.content + "```\nDeleted %d images, because they were older than %d days.```" % (result, days))
     elif cmd == 'fetch':
       # TODO:
       # call the image cron to fetch images to db
-      await ctx.send("🌱 TBD.")
       return
     else:
       await ctx.send("Undefined command.\n Please use `.p img [prune/fetch]`")
