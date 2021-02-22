@@ -63,3 +63,17 @@ class Db:
       else:
         conn.rollback()
     return row_id
+
+  def delete_query(self, query: str) -> int:
+    rows_affected = 0
+
+    with self._get_conn() as (conn, cursor):
+      cursor.execute(query)
+      rows_affected = cursor.rowcount
+
+      if rows_affected > 0:
+        conn.commit()
+      else:
+        conn.rollback()
+
+    return rows_affected

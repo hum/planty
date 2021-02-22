@@ -23,6 +23,7 @@ IMAGE_QUERY = """
 ADD_SUBREDDIT_QUERY = "INSERT INTO p_image_category (category_name) values ('%s') RETURNING category_id;"
 CHECK_IF_EXISTS_CATEGORY = "SELECT COUNT(*) FROM p_image_category WHERE category_name = '%s';"
 LIST_SUBREDDITS = "SELECT category_name FROM p_image_category;"
+PRUNE_OLD_IMAGES = "DELETE FROM p_images WHERE add_time < NOW() - interval '%d days';"
 
 ADD = 'add'
 REMOVE = 'remove'
@@ -49,6 +50,20 @@ class Memes(commands.Cog):
       return
 
     await ctx.send(choice(result)[0])
+
+  @commands.command(name='img')
+  async def update_images(self, ctx, cmd: str, days=14):
+    if cmd == 'prune':
+      await ctx.send("🌱 Pruning images from the database...")
+      result = self.bot.db.delete_query(PRUNE_OLD_IMAGES % days)
+      await ctx.send("🌱 Deleted %d images, because they were older than %d days." % (result, days))
+    elif cmd == 'fetch':
+      # TODO:
+      # call the image cron to fetch images to db
+      await ctx.send("🌱 TBD.")
+      return
+    else:
+      await ctx.send("Undefined command.\n Please use `.p img [prune/fetch]`")
 
   @commands.command(name='sub')
   async def subreddit_update(self, ctx, action: str, subreddit_name=""):
