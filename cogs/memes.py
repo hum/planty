@@ -1,5 +1,6 @@
 import logging
 import subprocess
+import requests
 
 from discord.ext import commands
 from random import choice
@@ -59,9 +60,20 @@ class Memes(commands.Cog):
       result = self.bot.db.delete_query(PRUNE_OLD_IMAGES % days)
       await msg.edit(content=msg.content + "```\nDeleted %d images, because they were older than %d days.```" % (result, days))
     elif cmd == 'fetch':
-      # TODO:
-      # call the image cron to fetch images to db
-      return
+      msg = await ctx.send("🌱 Fetching images...")
+
+      with requests.session() as session:
+        url = "http://localhost:3000"
+        data = None
+        try:
+          data = session.get(url).json()
+        except Exception as e:
+          await msg.edit(content=msg.content + "```\nError: %s```" % e)
+          return
+        if "OK" in data["Status"]:
+          await msg.edit(content=msg.content + "```\nFetched %d images into the DB.```" % int(data["Count"]))
+        else:
+          await msg.edit(content=msg.content + "```\nFailed to fetch images into the DB. Got Status code: %s```" % data["Status"])
     else:
       await ctx.send("Undefined command.\n Please use `.p img [prune/fetch]`")
 
