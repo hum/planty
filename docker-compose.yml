@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  planty:
+    image: planty-bot
+    build: .
+  sprout:
+    image: sprout
+    build: ./sprout
