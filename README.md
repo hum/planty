@@ -26,6 +26,34 @@ postgresql  = "postgresql://username:password@host:port/db_name"
 TOKEN       = "" # discord bot token
 ```
 
+## Starting Planty
+```bash
+> cd planty
+> docker build -t planty-bot .
+> docker run -d planty-bot
+```
+
+If you want to set up [Sprout](https://github.com/hum/sprout) instance along with Planty then you need to also set `planty/sprout/configs/image.agent` and `planty/sprout/configs/db_config.json`
+
+#### Start Planty with Sprout
+```bash
+# assumes a built binary (name: sprout) for Sprout in 'planty/sprout/build'
+> cd planty
+> docker-compose up --build -d 
+```
+
+#### Building Sprout from source
+```bash
+# alternatively clone from 'github.com/hum/sprout' codebase
+> cd planty/sprout/src/sprout
+> env GOOS=linux CGO_ENABLED=0 GOARCH=arm GOARM=5 \
+    go build -v -o ../../build/sprout cmd/sprout/main.go
+    #[GOOS, GOARCH, GOARM] -- platform flags
+```
+
+### Running Db
+```🌱 TODO.```
+
 ### Requirements
   - Python      3.x
   - discord.py  1.5.x
