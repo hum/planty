@@ -21,7 +21,7 @@ The available cogs are only ad-hoc solutions.
 ### Commands
 All available commands for Planty
 ```bash
-> [prefix]
+> [prefix]          # 'planty ', 'Planty ', '.p ', '.P ', '🌱 '
   - hn              # sends (default=10) posts from Hackernews' API
   - meme            # sends an image randomly chosen from the DB
   > sub
