@@ -4,6 +4,8 @@ services:
   planty:
     image: planty-bot
     build: .
+    depends_on:
+      - sprout
   sprout:
     image: sprout
     build: ./sprout

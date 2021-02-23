@@ -63,7 +63,7 @@ class Memes(commands.Cog):
       msg = await ctx.send("🌱 Fetching images...")
 
       with requests.session() as session:
-        url = "http://localhost:3000"
+        url = "http://sprout:3000"
         data = None
         try:
           data = session.get(url).json()
