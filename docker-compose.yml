@@ -7,3 +7,5 @@ services:
   sprout:
     image: sprout
     build: ./sprout
+    ports:
+      - "3000:3000"
