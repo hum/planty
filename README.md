@@ -18,6 +18,19 @@ The available cogs are only ad-hoc solutions.
       xkcd.py   # Fetches images from the XKCD API
 ```
 
+### Commands
+All available commands for Planty
+```bash
+> [prefix]
+  - hn              # sends (default=10) posts from Hackernews' API
+  - meme            # sends an image randomly chosen from the DB
+  > sub
+    - list          # lists all available image sources          
+    - add [name]    # adds an image source to the db
+    - remove [name] # removes an image source from the db
+  - xkcd            # sends an xkdc comic
+```
+
 ### Setup configuration
 The setup only requires to specify the PostgreSQL URI and the Discord token in the `planty/config.py` file.
 
