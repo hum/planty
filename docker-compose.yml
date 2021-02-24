@@ -8,6 +8,12 @@ services:
       - sprout
   sprout:
     image: sprout
+    environment:
+      - REDDIT_USERNAME: ${REDDIT_USERNAME}
+      - REDDIT_PASSWORD: ${REDDIT_PASSWORD}
+      - REDDIT_CLIENT_SECRET: ${REDDIT_CLIENT_SECRET}
+      - REDDIT_CLIENT_ID: ${REDDIT_CLIENT_ID}
+      - REDDIT_USER_AGENT: ${REDDIT_USER_AGENT}
     build: ./sprout
     ports:
       - "3000:3000"
