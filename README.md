@@ -46,7 +46,7 @@ TOKEN       = "" # discord bot token
 > docker run -d planty-bot
 ```
 
-If you want to set up [Sprout](https://github.com/hum/sprout) instance along with Planty then you need to also set `planty/sprout/configs/image.agent` and `planty/sprout/configs/db_config.json`
+If you want to set up [Sprout-img](https://github.com/hum/sprout-img) instance along with Planty then you need to also set `planty/sprout/configs/image.agent` and `planty/sprout/configs/db_config.json`
 
 #### Start Planty with Sprout
 ```bash
