@@ -1,3 +1,3 @@
-[submodule "sprout/sprout"]
-	path = sprout/sprout
-	url = https://github.com/hum/sprout
+[submodule "sprout-img/sprout-img"]
+	path = sprout-img/sprout-img
+	url = git@github.com:hum/sprout-img.git
