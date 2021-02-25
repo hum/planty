@@ -28,6 +28,9 @@ All available commands for Planty
     - list          # lists all available image sources          
     - add [name]    # adds an image source to the db
     - remove [name] # removes an image source from the db
+  > img
+    - fetch         # harvests images from all of the available sources
+    - prune         # deletes old images from the db (default=14 days)
   - xkcd            # sends an xkdc comic
 ```
 
@@ -46,11 +49,11 @@ TOKEN       = "" # discord bot token
 > docker run -d planty-bot
 ```
 
-If you want to set up [Sprout-img](https://github.com/hum/sprout-img) instance along with Planty then you need to also set `planty/sprout/configs/image.agent` and `planty/sprout/configs/db_config.json`
+If you want to set up [Sprout-img](https://github.com/hum/sprout-img) instance along with Planty then you need to also   set `planty/sprout/configs/db_config.json` values.
 
-#### Start Planty with Sprout
+#### Start Planty with Sprout-img
 ```bash
-# assumes a built binary (name: sprout) for Sprout in 'planty/sprout/build'
+# assumes a built binary (name: sprout-img) for Sprout in 'planty/sprout-img/build'
 > cd planty
 > docker-compose up --build -d 
 ```
@@ -58,9 +61,9 @@ If you want to set up [Sprout-img](https://github.com/hum/sprout-img) instance a
 #### Building Sprout from source
 ```bash
 # alternatively clone from 'github.com/hum/sprout' codebase
-> cd planty/sprout/src/sprout
+> cd planty/sprout-img/sprout-img
 > env GOOS=linux CGO_ENABLED=0 GOARCH=arm GOARM=5 \
-    go build -v -o ../../build/sprout cmd/sprout/main.go
+    go build -v -o ../../build/sprout-img cmd/sprout-img/main.go
     #[GOOS, GOARCH, GOARM] -- platform flags
 ```
 
