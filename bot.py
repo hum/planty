@@ -9,7 +9,8 @@ log = logging.getLogger(__name__)
 cog_commands = (
   'cogs.memes',
   'cogs.xkcd',
-  'cogs.hn'
+  'cogs.hn',
+  'cogs.twitch'
 )
 
 class Planty(commands.Bot):
