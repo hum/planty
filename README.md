@@ -2,6 +2,7 @@
 A personal bot for my server. This repo is intended only for educational purposes.
 
 ## TODO:
+  - [ ] Add more cogs
   - [ ] Db migration script
   - [ ] String sanitization for Db queries
   - [ ] Proper thread-safe requests
@@ -31,6 +32,9 @@ All available commands for Planty
   > img
     - fetch         # harvests images from all of the available sources
     - prune         # deletes old images from the db (default=14 days)
+  > twitch
+    - add [name]    # adds the streamer to the list
+    - remove [name] # removes the streamer from the list
   - xkcd            # sends an xkdc comic
 ```
 
