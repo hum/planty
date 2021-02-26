@@ -3,6 +3,9 @@ version: '3.8'
 services:
   planty:
     image: planty-bot
+    environment:
+      TWITCH_CLIENT_ID: ${TWITCH_CLIENT_ID}
+      TWITCH_AUTHORIZATION: ${TWITCH_AUTHORIZATION}
     build: .
     depends_on:
       - sprout
