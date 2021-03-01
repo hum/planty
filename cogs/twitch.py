@@ -40,7 +40,7 @@ class TwitchAPI:
     return False
 
   def remove_streamer(self, name) -> bool:
-    streamer_id = get_streamer_id
+    streamer_id = self.get_streamer_id
 
     if streamer_id is not None:
       self.streamer_ids.remove(streamer_id)
