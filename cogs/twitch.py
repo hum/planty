@@ -39,6 +39,14 @@ class TwitchAPI:
         return False
     return False
 
+  def remove_streamer(self, name) -> bool:
+    streamer_id = self.get_streamer_id(name)
+
+    if streamer_id is not None:
+      self.streamer_ids.remove(streamer_id)
+      return True
+    return False
+
   def get_streamer_id(self, name: str) -> str:
     with requests.session() as session:
       response = session.get(GET_STREAMER_ID_URL % name, headers=TWITCH_HEADERS).json()
