@@ -1,6 +1,8 @@
 # Planty
 <p align="center"><img src="https://www.flaticon.com/svg/vstatic/svg/1752/1752933.svg?token=exp=1614607468~hmac=3f1f290c1c0ee3a75004b1901ec68b40" width="300" height="300" /></p>
 
+------------------------------------------------------------------------------------------
+
 A personal bot for my server. This repo is intended only for educational purposes.
 ## TODO:
   - [ ] Add more cogs
@@ -9,7 +11,6 @@ A personal bot for my server. This repo is intended only for educational purpose
   - [ ] Proper thread-safe requests
   - [ ] Rate limiting
   - [ ] Caching 
-  - [ ] Tests
 
 ### Cogs
 The available cogs are only ad-hoc solutions.
@@ -74,8 +75,3 @@ If you want to set up [Sprout-img](https://github.com/hum/sprout-img) instance a
 
 ### Running Db
 ```🌱 TODO.```
-
-### Requirements
-  - Python      3.x
-  - discord.py  1.5.x
-  - urllib3     1.25.x
