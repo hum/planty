@@ -1,6 +1,7 @@
 import logging
 import config
 
+from discord import Game
 from discord.ext import commands
 from cogs.utils import context
 
@@ -24,6 +25,7 @@ class Planty(commands.Bot):
   async def on_ready(self):
     print(">>> Planty logged in. Check the 'planty.log' file for logging messages.\nCTRL+C to exit.")
     log.info(f'Planty logged in: {self.user} (ID: {self.user.id})')
+    await self.change_presence(activity=Game(name="in the garden."))
 
   async def process_commands(self, message):
     try:
