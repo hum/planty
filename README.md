@@ -1,6 +1,7 @@
 # Planty
-A personal bot for my server. This repo is intended only for educational purposes.
+<p align="center"><img src="https://www.flaticon.com/svg/vstatic/svg/1752/1752933.svg?token=exp=1614607468~hmac=3f1f290c1c0ee3a75004b1901ec68b40" width="300" height="300" /></p>
 
+A personal bot for my server. This repo is intended only for educational purposes.
 ## TODO:
   - [ ] Add more cogs
   - [ ] Db migration script
