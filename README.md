@@ -1,5 +1,5 @@
 # Planty
-<p align="center"><img src="https://www.flaticon.com/svg/vstatic/svg/4207/4207573.svg?token=exp=1614606753~hmac=ee812b8cbba082204542429a639345c5" width="200" height="200" /></p>
+<p align="center"><img src="https://www.flaticon.com/svg/vstatic/svg/1752/1752933.svg?token=exp=1614607468~hmac=3f1f290c1c0ee3a75004b1901ec68b40" width="300" height="300" /></p>
 
 A personal bot for my server. This repo is intended only for educational purposes.
 ## TODO:
