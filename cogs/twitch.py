@@ -22,6 +22,13 @@ USER_ADD = "add"
 USER_REMOVE = "remove"
 LIST = "list"
 
+SUCCESSFULLY_ADDED_USER     =   "🌱 Added **%s** to the list."
+ERROR_ADDING_USER           =   "🌱 Could not add **%s** to the list.\nEither the user is already added or does not exist."
+SPECIFY_USERNAME_TO_ADD     =   "🌱 Please specify the user's name to add."
+SUCCESSFULLY_REMOVED_USER   =   "🌱 Successfully removed **%s** from the list."
+COULD_NOT_REMOVE_USER       =   "🌱 Could not remove user **%s** from the list."
+SPECIFY_USERNAME_TO_REMOVE  =   "🌱 Please specify the user's name to remove."
+
 class TwitchAPI:
   def __init__(self):
     # TODO:
@@ -29,20 +36,17 @@ class TwitchAPI:
     self.streamer_ids = [] # temporary
 
   def add_streamer(self, name: str) -> bool:
-    if not name in self.streamer_ids:
-      streamer_id = self.get_streamer_id(name)
+    streamer_id = self.get_streamer_id(name)
 
-      if streamer_id is not None:
-        self.streamer_ids.append(streamer_id)
-        return True
-      else:
-        return False
+    if streamer_id is not None and streamer_id not in self.streamer_ids:
+      self.streamer_ids.append(streamer_id)
+      return True
     return False
 
   def remove_streamer(self, name) -> bool:
     streamer_id = self.get_streamer_id(name)
 
-    if streamer_id is not None:
+    if streamer_id is not None and streamer_id in self.streamer_ids:
       self.streamer_ids.remove(streamer_id)
       return True
     return False
@@ -125,24 +129,22 @@ class Twitch(commands.Cog):
   # ex: .p twitch add user1 user2 user3
   @commands.command(name='twitch')
   async def twitch(self, ctx, action="", streamer_name=""):
-    # TODO:
-    # Rewrite all of this messages as static vars, inline text looks ugly
     if action == USER_ADD:
       if not streamer_name == "":
         if self.twitch_api.add_streamer(streamer_name):
-          await ctx.send("🌱 Added **%s** to the list." % streamer_name)
+          await ctx.send(SUCCESSFULLY_ADDED_USER % streamer_name)
         else:
-          await ctx.send("🌱 Could not add **%s** to the list.\nEither the user is already added or does not exist.")
+          await ctx.send(ERROR_ADDING_USER % streamer_name)
       else:
-        await ctx.send("🌱 Please specify the user's name to add.")
+        await ctx.send(SPECIFY_USERNAME_TO_ADD)
     elif action == USER_REMOVE:
       if not streamer_name == "":
         if self.twitch_api.remove_streamer(streamer_name):
-          await ctx.send("🌱 Successfully removed **%s** from the list.")
+          await ctx.send(SUCCESSFULLY_REMOVED_USER % streamer_name)
         else:
-          await ctx.send("🌱 Could not remove user **%s** from the list.")
+          await ctx.send(COULD_NOT_REMOVE_USER % streamer_name)
       else:
-        await ctx.send("🌱 Please specify the user's name to remove.")
+        await ctx.send(SPECIFY_USERNAME_TO_REMOVE)
 
   # TODO:
   # Do error checking on missing values
