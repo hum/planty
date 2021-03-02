@@ -40,8 +40,8 @@ jobs:
         port: ${{ secrets.PORT }}
         envs: TWITCH_CLIENT_ID, TWITCH_AUTHENTICATION
         script: |
-          export TWITCH_CLIENT_ID="$TWITCH_CLIENT_ID"
-          export TWITCH_AUTHORIZATION="$TWITCH_AUTHORIZATION"
+          export TWITCH_CLIENT_ID=$TWITCH_CLIENT_ID
+          export TWITCH_AUTHORIZATION=$TWITCH_AUTHORIZATION
           cd projects/planty
           git pull
           docker-compose up --build -d
