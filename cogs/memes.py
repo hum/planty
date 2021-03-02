@@ -58,7 +58,7 @@ class Memes(commands.Cog):
     if cmd == 'prune':
       msg = await ctx.send("🌱 Pruning images from the database...")
       result = self.bot.db.delete_query(PRUNE_OLD_IMAGES % days)
-      await msg.edit(content=msg.content + "```\nDeleted %d images, because they were older than %d days.```" % (result, days))
+      await msg.edit(content=msg.content + "```Deleted %d images, because they were older than %d days.```" % (result, days))
     elif cmd == 'fetch':
       msg = await ctx.send("🌱 Fetching images...")
 
@@ -69,13 +69,13 @@ class Memes(commands.Cog):
         try:
           data = session.get(url).json()
         except Exception as e:
-          await msg.edit(content=msg.content + "```\nError: %s```" % e)
+          await msg.edit(content=msg.content + "```Error: %s```" % e)
           return
 
         if "OK" in data["Status"]:
-          await msg.edit(content=msg.content + "```\nFetched %d images into the DB.```" % int(data["Data"]["Count"]))
+          await msg.edit(content=msg.content + "```Fetched %d images into the DB.```" % int(data["Data"]["Count"]))
         else:
-          await msg.edit(content=msg.content + "```\nFailed to fetch images into the DB. Got Status code: %s```" % data["Status"])
+          await msg.edit(content=msg.content + "```Failed to fetch images into the DB. Got Status code: %s```" % data["Status"])
     else:
       await ctx.send("Undefined command.\n Please use `.p img [prune/fetch]`")
 
@@ -84,7 +84,7 @@ class Memes(commands.Cog):
     if action in avail_actions:
       if action == ADD:
         if subreddit_name == "":
-          await ctx.send("In order to add a new subreddit you need to specify it's name. \n```[prefix] sub add [subreddit_name]```")
+          await ctx.send("In order to add a new subreddit you need to specify it's name. ```[prefix] sub add [subreddit_name]```")
           return
 
         result = self.bot.db.select_query(CHECK_IF_EXISTS_CATEGORY % subreddit_name)
