@@ -31,17 +31,27 @@ jobs:
     - name: Deploy
       uses: appleboy/ssh-action@master
       env:
-        TWITCH_CLIENT_ID: ${{ secrets.TWITCH_CLIENT.ID }}
+        TWITCH_CLIENT_ID: ${{ secrets.TWITCH_CLIENT_ID }}
         TWITCH_AUTHORIZATION: ${{ secrets.TWITCH_AUTHORIZATION }}
+        REDDIT_USERNAME: ${{ secrets.REDDIT_USERNAME }}
+        REDDIT_PASSWORD: ${{ secrets.REDDIT_PASSWORD }}
+        REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
+        REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
+        REDDIT_USER_AGENT: ${{ secrets.REDDIT_USER_AGENT }}
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.KEY }}
         port: ${{ secrets.PORT }}
-        envs: TWITCH_CLIENT_ID, TWITCH_AUTHORIZATION
+        envs: TWITCH_CLIENT_ID, TWITCH_AUTHORIZATION, REDDIT_USERNAME, REDDIT_PASSWORD, REDDIT_CLIENT_SECRET, REDDIT_CLIENT_ID, REDDIT_USER_AGENT
         script: |
           export TWITCH_CLIENT_ID=$TWITCH_CLIENT_ID
           export TWITCH_AUTHORIZATION=$TWITCH_AUTHORIZATION
+          export REDDIT_USERNAME=$REDDIT_USERNAME
+          export REDDIT_PASSWORD=$REDDIT_PASSWORD
+          export REDDIT_CLIENT_SECRET=$REDDIT_CLIENT_SECRET
+          export REDDIT_CLIENT_ID=$REDDIT_CLIENT_ID
+          export REDDIT_USER_AGENT=$REDDIT_USER_AGENT
           cd projects/planty
           git pull
           docker-compose up --build -d
