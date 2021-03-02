@@ -54,6 +54,7 @@ class TwitchAPI:
   def get_streamer_id(self, name: str) -> str:
     with requests.session() as session:
       response = session.get(GET_STREAMER_ID_URL % name, headers=TWITCH_HEADERS).json()
+      print(response, TWITCH_AUTHORIZATION, TWITCH_CLIENT_ID) # testing for workflow
       if len(response['data']) > 0:
         return response['data'][0]['id']
       return None
