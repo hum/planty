@@ -30,12 +30,18 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Deploy
       uses: appleboy/ssh-action@master
+      env:
+        TWITCH_CLIENT_ID: ${{ secrets.TWITCH_CLIENT.ID }}
+        TWITCH_AUTHORIZATION: ${{ secrets.TWITCH_AUTHORIZATION }}
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.KEY }}
         port: ${{ secrets.PORT }}
+        envs: TWITCH_CLIENT_ID, TWITCH_AUTHENTICATION
         script: |
+          export TWITCH_CLIENT_ID="$TWITCH_CLIENT_ID"
+          export TWITCH_AUTHORIZATION="$TWITCH_AUTHORIZATION"
           cd projects/planty
           git pull
           docker-compose up --build -d
