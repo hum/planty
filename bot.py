@@ -12,7 +12,8 @@ cog_commands = (
   'cogs.xkcd',
   'cogs.hn',
   'cogs.twitch',
-  'cogs.message'
+  'cogs.message',
+  'cogs.code'
 )
 
 class Planty(commands.Bot):
