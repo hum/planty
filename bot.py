@@ -11,7 +11,8 @@ cog_commands = (
   'cogs.memes',
   'cogs.xkcd',
   'cogs.hn',
-  'cogs.twitch'
+  'cogs.twitch',
+  'cogs.message'
 )
 
 class Planty(commands.Bot):
