@@ -4,4 +4,4 @@ ADD ./ ./planty
 WORKDIR ./planty
 
 RUN pip install -r requirements.txt
-CMD ["python", "run.py"]
+CMD ["python", "-u", "run.py"]
