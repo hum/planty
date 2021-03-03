@@ -3,20 +3,15 @@ version: '3.8'
 services:
   planty:
     image: planty-bot
-    environment:
-      TWITCH_CLIENT_ID: ${TWITCH_CLIENT_ID}
-      TWITCH_AUTHORIZATION: ${TWITCH_AUTHORIZATION}
+    env_file:
+      - .env
     build: .
     depends_on:
       - sprout
   sprout:
     image: sprout
-    environment:
-      REDDIT_USERNAME: ${REDDIT_USERNAME}
-      REDDIT_PASSWORD: ${REDDIT_PASSWORD}
-      REDDIT_CLIENT_SECRET: ${REDDIT_CLIENT_SECRET}
-      REDDIT_CLIENT_ID: ${REDDIT_CLIENT_ID}
-      REDDIT_USER_AGENT: ${REDDIT_USER_AGENT}
+    env_file:
+      - .env
     build: ./sprout-img
     ports:
       - "3000:3000"
