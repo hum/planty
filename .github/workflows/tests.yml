@@ -54,4 +54,5 @@ jobs:
           export REDDIT_USER_AGENT=$REDDIT_USER_AGENT
           cd projects/planty
           git pull
+          cp /sprout-img/sprout-img/build/prod /sprout-img/build/sprout-img
           docker-compose up --build -d
