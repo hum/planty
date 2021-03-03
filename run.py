@@ -1,12 +1,14 @@
 import discord
 import asyncio
-import config
 import logging
 import contextlib
+import os
 
 from logging.handlers import RotatingFileHandler
 from bot import Planty
 from cogs.utils.db import Db
+
+LOG_FILENAME = "planty.log"
 
 @contextlib.contextmanager
 def set_logging():
@@ -19,7 +21,7 @@ def set_logging():
     log.setLevel(logging.DEBUG)
   
     date_format = '%Y-%m-%d %H:%M:%S'
-    handler = RotatingFileHandler(filename=config.LOG_FILENAME, encoding='utf-8', mode='a')
+    handler = RotatingFileHandler(filename=LOG_FILENAME, encoding='utf-8', mode='a')
     fmt = logging.Formatter('[{asctime}] [{levelname}] {name}: {message}', date_format, style='{')
 
     handler.setFormatter(fmt)
@@ -37,7 +39,7 @@ def start_bot():
   db = Db()
 
   try:
-    pool = loop.run_until_complete(Db.create_pool(0, 4, config.postgresql))
+    pool = loop.run_until_complete(Db.create_pool(0, 4, os.getenv("POSTGRE_URI")))
     if pool is not None:
       db.pool = pool
 
