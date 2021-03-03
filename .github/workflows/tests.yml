@@ -30,7 +30,7 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Deploy
       uses: appleboy/ssh-action@master
-     with:
+      with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.KEY }}
@@ -38,5 +38,5 @@ jobs:
         script: |
           cd projects/planty
           git pull
-          cp /sprout-img/sprout-img/build/prod /sprout-img/build/sprout-img
+          cp sprout-img/sprout-img/build/prod sprout-img/build/sprout-img
           docker-compose up --build -d
