@@ -58,6 +58,7 @@ class Twitch(commands.Cog):
   def __init__(self, bot):
     self.bot = bot
     self.twitch_api = TwitchAPI()
+    self.streamer_ids = []
 
     # temporary values
     self.channel_id = 814850421620342814
