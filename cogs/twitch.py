@@ -119,7 +119,7 @@ class Twitch(commands.Cog):
   # Allow subgroups of streamers based on a specific role
   # e.g. instead of @Twitch, there can be created categories for
   # a specific subgroup of streamers.
-  def add_streamer(self, streamer_name: str, user_id: int) -> bool:
+  def _add_streamer(self, streamer_name: str, user_id: int) -> bool:
     streamer_id = int(self.twitch_api.get_streamer_id(streamer_name))
     if streamer_id is not None and streamer_id not in self.streamer_ids:
       if not self._streamer_exists(streamer_id):
@@ -144,24 +144,20 @@ class Twitch(commands.Cog):
   # ex: .p twitch add user1 user2 user3
   @commands.command(name='twitch')
   async def twitch(self, ctx, action="", streamer_name=""):
-    if action == USER_ADD:
-      if not streamer_name == "":
-        if self.add_streamer(streamer_name, ctx.author.id):
-          await ctx.send(SUCCESSFULLY_ADDED_STREAMER % streamer_name)
-        else:
-          await ctx.send(ERROR_ADDING_STREAMER % streamer_name)
-      else:
-        await ctx.send(SPECIFY_USERNAME_TO_ADD)
-    elif action == USER_REMOVE:
-      if not streamer_name == "":
-        if self._remove_streamer(streamer_name):
-          await ctx.send(SUCCESSFULLY_REMOVED_USER % streamer_name)
-        else:
-          await ctx.send(COULD_NOT_REMOVE_USER % streamer_name)
-      else:
-        await ctx.send(SPECIFY_USERNAME_TO_REMOVE)
-    else:
+    if streamer_name == "":
+      await ctx.send(SPECIFY_USERNAME_TO_ADD)
       return
+    
+    if action == USER_ADD:
+      if self._add_streamer(streamer_name, ctx.author.id):
+        await ctx.send(SUCCESSFULLY_ADDED_STREAMER % streamer_name)
+      else:
+        await ctx.send(ERROR_ADDING_STREAMER % streamer_name)
+    elif action == USER_REMOVE:
+      if self._remove_streamer(streamer_name):
+        await ctx.send(SUCCESSFULLY_REMOVED_USER % streamer_name)
+      else:
+        await ctx.send(COULD_NOT_REMOVE_USER % streamer_name)
 
   # TODO:
   # Do error checking on missing values
