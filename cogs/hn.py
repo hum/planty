@@ -60,6 +60,7 @@ class Hackernews(commands.Cog):
     self.bot = bot
     self.hn = Hn()
 
+  @commands.guild_only()
   @commands.command(name='hn')
   async def get_news(self, ctx, news_count=10):
     posts = self.hn.get_posts(news_count)

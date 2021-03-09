@@ -3,6 +3,7 @@ import requests
 import datetime
 import discord.utils
 
+from .utils import checks
 from discord.ext import commands, tasks
 from discord import Embed, Colour
 
@@ -142,6 +143,8 @@ class Twitch(commands.Cog):
   # parse [streamer_name] into values separated as spaces
   # to allow adding multiple streamers at once
   # ex: .p twitch add user1 user2 user3
+  @checks.is_admin()
+  @commands.guild_only()
   @commands.command(name='twitch')
   async def twitch(self, ctx, action="", streamer_name=""):
     if streamer_name == "":

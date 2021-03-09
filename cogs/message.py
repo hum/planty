@@ -1,4 +1,5 @@
 from discord.ext import commands
+from .utils import checks
 
 class Message(commands.Cog):
   def __init__(self, bot):
@@ -12,6 +13,8 @@ class Message(commands.Cog):
   async def on_message_delete(self, message):
     self.latest_deleted_message = message
 
+  @commands.guild_only()
+  @checks.is_admin()
   @commands.command(name="prune")
   async def prune_messages(self, ctx, amount=1):
     deleted = await ctx.channel.purge(limit=amount, check=self.is_init_command)

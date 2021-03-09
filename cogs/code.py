@@ -1,5 +1,6 @@
 import requests
 
+from .utils import checks
 from discord.ext import commands
 
 COMMAND_WRAPPER = "@commands.command(name='%s')"
@@ -54,6 +55,7 @@ class Code(commands.Cog):
     self.bot = bot
     self.parser = FileParser()
 
+  @checks.is_admin()
   @commands.command(name='source')
   async def code(self, ctx, cmd_name: str = ""):
     obj = self.bot.get_command(cmd_name)

@@ -4,6 +4,7 @@ import requests
 
 from discord.ext import commands
 from random import choice
+from .utils import checks
 
 # TODO:
 # Rewrite this godawful thing
@@ -22,14 +23,14 @@ IMAGE_QUERY = """
       si.server_id = 1;
 """
 
-ADD_SUBREDDIT_QUERY = "INSERT INTO p_image_category (category_name) values ('%s') RETURNING category_id;"
-CHECK_IF_EXISTS_CATEGORY = "SELECT COUNT(*) FROM p_image_category WHERE category_name = '%s';"
-LIST_SUBREDDITS = "SELECT category_name FROM p_image_category;"
-PRUNE_OLD_IMAGES = "DELETE FROM p_images WHERE add_time < NOW() - interval '%d days';"
+ADD_SUBREDDIT_QUERY       = "INSERT INTO p_image_category (category_name) values ('%s') RETURNING category_id;"
+CHECK_IF_EXISTS_CATEGORY  = "SELECT COUNT(*) FROM p_image_category WHERE category_name = '%s';"
+LIST_SUBREDDITS           = "SELECT category_name FROM p_image_category;"
+PRUNE_OLD_IMAGES          = "DELETE FROM p_images WHERE add_time < NOW() - interval '%d days';"
 
-ADD = 'add'
-REMOVE = 'remove'
-LIST = 'list'
+ADD     = 'add'
+REMOVE  = 'remove'
+LIST    = 'list'
 
 avail_actions = [
   ADD,
@@ -43,6 +44,7 @@ class Memes(commands.Cog):
   def __init__(self, bot):
     self.bot = bot
 
+  @commands.guild_only()
   @commands.command(name='meme')
   async def send_meme(self, ctx):
     try:
@@ -53,6 +55,8 @@ class Memes(commands.Cog):
 
     await ctx.send(choice(result)[0])
 
+  @commands.guild_only()
+  @checks.is_admin()
   @commands.command(name='img')
   async def update_images(self, ctx, cmd: str, days=14):
     if cmd == 'prune':
@@ -79,6 +83,8 @@ class Memes(commands.Cog):
     else:
       await ctx.send("Undefined command.\n Please use `.p img [prune/fetch]`")
 
+  @commands.guild_only()
+  @checks.is_admin()
   @commands.command(name='sub')
   async def subreddit_update(self, ctx, action: str, subreddit_name=""):
     if action in avail_actions:
