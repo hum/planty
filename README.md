@@ -16,9 +16,12 @@ A personal bot for my server. This repo is intended only for educational purpose
 The available cogs are only ad-hoc solutions.
 ```bash
   /cogs
-      hn.py     # Fetches Hackernews stories
-      memes.py  # Fetches images from DB
-      xkcd.py   # Fetches images from the XKCD API
+      hn.py      # Fetches Hackernews stories
+      memes.py   # Fetches images from DB
+      xkcd.py    # Fetches images from the XKCD API
+      twitch.py  # Notifies users whenever a certain streamer goes live
+      code.py    # Returns code for the specified command
+      message.py # Prunes and snipes messages
 ```
 
 ### Commands
@@ -38,6 +41,8 @@ All available commands for Planty
     - add [name]    # adds the streamer to the list
     - remove [name] # removes the streamer from the list
   - xkcd            # sends an xkdc comic
+  - snipe           # shows the last deleted message
+  - prune           # deletes (default=1) messages posted in the chat
 ```
 
 ### Setup configuration
