@@ -2,6 +2,12 @@ import requests
 
 from discord.ext import commands
 
+COMMAND_WRAPPER = "@commands.command(name='%s')"
+SEARCH_KEYWORDS = [
+  " def ", 
+  "@commands"
+]
+
 class FileParser:
   def __init__(self):
     self.source_url = "https://github.com/hum/planty/blob/main/cogs/%s"
@@ -20,7 +26,7 @@ class FileParser:
 
   def find_cog_code(self, cog_filename, cog_name):
     text = self.get_code_from_url(cog_filename)
-    find = "@commands.command(name='%s')" % cog_name
+    find = COMMAND_WRAPPER % cog_name
 
     result = []
     found = False
@@ -36,7 +42,7 @@ class FileParser:
           result.append(find)
         else:
           if found:
-            if ' def ' in text[i+1] or '@commands' in text[i+1]:
+            if text[i+1] in SEARCH_KEYWORDS:
               return result
             else:
               result.append(text[i])
@@ -62,7 +68,6 @@ class Code(commands.Cog):
       await ctx.send("```python\n%s\n```URL: <%s>" % (result, self.parser.source_url % (filename)))
     else:
       await ctx.send("🌱 Could not find the command.")
-
    
 def setup(bot):
   bot.add_cog(Code(bot))
