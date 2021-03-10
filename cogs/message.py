@@ -17,6 +17,13 @@ class Message(commands.Cog):
   @checks.is_admin()
   @commands.command(name="prune")
   async def prune_messages(self, ctx, amount=1):
+    # amount has to be incremented otherwise it would count the invocation command as the one to delete
+    # Example:
+    # [0] bad message
+    # [1] .p prune 1
+    # ---------------
+    # [1] gets deleted, [0] stays
+    amount += 1
     deleted = await ctx.channel.purge(limit=amount, check=self.is_init_command)
     await ctx.message.delete(delay=2.0)
     await ctx.send("`🌱 Deleted %d messages.`" % len(deleted), delete_after=2.0)
