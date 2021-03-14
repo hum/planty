@@ -71,6 +71,11 @@ class Code(commands.Cog):
     filename = obj.callback.__code__.co_filename.rsplit('/', 1)[1]
     cog_code = self.parser.find_cog_code(filename, cmd_name)
 
+    # Discord only allows messages <2000 characters long
+    if len(cog_code) > 2000:
+      await ctx.send("`🌱 Could not post the code snippet. Message exceeds 2000 characters`")
+      return
+
     if cog_code is not None:
       result = "\n".join(cog_code)
       await ctx.send("```python\n%s\n```URL: <%s>" % (result, self.parser.source_url % (filename)))
