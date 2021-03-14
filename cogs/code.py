@@ -9,7 +9,7 @@ from discord.ext import commands
 COMMAND_WRAPPER = "@commands.command(name='%s')"
 SEARCH_KEYWORDS = [
   " def ", 
-  "@commands",
+  "@commands"
 ]
 
 class FileParser:
