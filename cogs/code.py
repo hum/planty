@@ -3,10 +3,13 @@ import requests
 from .utils import checks
 from discord.ext import commands
 
+# TODO:
+# Add more ways to find a command than just a specific wrapper
+# E.g: Allow search by method names that are registered
 COMMAND_WRAPPER = "@commands.command(name='%s')"
 SEARCH_KEYWORDS = [
   " def ", 
-  "@commands"
+  "@commands",
 ]
 
 class FileParser:
@@ -25,6 +28,9 @@ class FileParser:
     else:
       return None
 
+  # TODO:
+  # Doesn't parse properly - ex: .p source meme
+  # Needs tests
   def find_cog_code(self, cog_filename, cog_name):
     text = self.get_code_from_url(cog_filename)
     find = COMMAND_WRAPPER % cog_name
@@ -40,15 +46,15 @@ class FileParser:
 
         if find in text[i]:
           found = True
-          result.append(find)
-        else:
-          if found:
-            if text[i+1] in SEARCH_KEYWORDS:
-              return result
-            else:
-              result.append(text[i])
-    else:
-      return None
+
+        if found:
+          if i == len(text)-1:
+            return result
+          if text[i+1] in SEARCH_KEYWORDS:
+            return result
+          else:
+            result.append(text[i].replace("`", "'"))
+    return None
 
 class Code(commands.Cog):
   def __init__(self, bot):
