@@ -27,22 +27,23 @@ The available cogs are only ad-hoc solutions.
 ### Commands
 All available commands for Planty
 ```bash
-> [prefix]          # 'planty ', 'Planty ', '.p ', '.P ', '🌱 '
-  - hn              # sends (default=10) posts from Hackernews' API
-  - meme            # sends an image randomly chosen from the DB
+> [prefix]            # 'planty ', 'Planty ', '.p ', '.P ', '🌱 '
+  - hn                # sends (default=10) posts from Hackernews' API
+  - meme              # sends an image randomly chosen from the DB
   > sub
-    - list          # lists all available image sources          
-    - add [name]    # adds an image source to the db
-    - remove [name] # removes an image source from the db
+    - list            # lists all available image sources          
+    - add [name]      # adds an image source to the db
+    - remove [name]   # removes an image source from the db
   > img
-    - fetch         # harvests images from all of the available sources
-    - prune         # deletes old images from the db (default=14 days)
+    - fetch           # harvests images from all of the available sources
+    - prune           # deletes old images from the db (default=14 days)
   > twitch
-    - add [name]    # adds the streamer to the list
-    - remove [name] # removes the streamer from the list
-  - xkcd            # sends an xkdc comic
-  - snipe           # shows the last deleted message
-  - prune           # deletes (default=1) messages posted in the chat
+    - add [name]      # adds the streamer to the list
+    - remove [name]   # removes the streamer from the list
+  - xkcd              # sends an xkdc comic
+  - snipe             # shows the last deleted message
+  - prune             # deletes (default=1) messages posted in the chat
+  - source [command]  # returns the code and the link for the specific command 
 ```
 
 ### Setup configuration
