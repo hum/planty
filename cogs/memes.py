@@ -88,38 +88,52 @@ class Memes(commands.Cog):
   @commands.command(name='sub')
   async def subreddit_update(self, ctx, action: str, subreddit_name=""):
     if action in avail_actions:
-      if action == ADD:
+      if action == LIST:
+        subreddit_list = self.get_subreddits()
+        fmt = '```' + '\n'.join(subreddit_list) + '```'
+        return await ctx.send(fmt)
+      else:
         if subreddit_name == "":
-          await ctx.send("In order to add a new subreddit you need to specify it's name. ```[prefix] sub add [subreddit_name]```")
-          return
-
-        result = self.bot.db.select_query(CHECK_IF_EXISTS_CATEGORY % subreddit_name)
-        count = result[0][0] # [(0,)]
-
-        if count > 0:
-          await ctx.send("Subreddit %s already exists in the database." % subreddit_name)
-          return
-
-        result = self.bot.db.insert_query(ADD_SUBREDDIT_QUERY % subreddit_name) 
-        if result[0] > 0:
-          await ctx.add_reaction('\N{WHITE HEAVY CHECK MARK}')
-          await ctx.send("Subreddit [**%s**] has been added to the database. 🌱" % subreddit_name)
+          return await ctx.send("In order to add a new subreddit you need to specify it's name. ```[prefix] sub add [subreddit_name]```")
+          
+      if action == ADD:
+        result = self.add_subreddit(subreddit_name)
+        if not result:
+          return await ctx.send("Subreddit [**%s**] already exists in the database." % subreddit_name)
+        else:
+          return await ctx.send("Subreddit [**%s**] has been added to the database." % subreddit_name)
       elif action == REMOVE:
-        # TODO:
-        # Remove subreddit from DB
+        result = self.remove_subreddit(subreddit_name)
+        if not result:
+          return await ctx.send("Subreddit [**%s**] is not in the database." % subreddit_name)
+        else:
+          return await ctx.send("Removed subreddit [**%s**] from the database." % subreddit_name)
         return
       elif action == LIST:
-        result = self.bot.db.select_query(LIST_SUBREDDITS)
-        if len(result) == 0:
-          return
+        subreddit_list = self.get_subreddits()
+        return await ctx.send(fmt)
 
-        subreddit_names = []
+  def add_subreddit(self, subreddit_name: str) -> bool:
+    result = self.bot.db.select_query(CHECK_IF_EXISTS_CATEGORY % subreddit_name)
+    if result[0][0] > 0:
+      return False
 
-        for value in result:
-          subreddit_names.append(value[0])
+    result = self.bot.db.insert_query(ADD_SUBREDDIT_QUERY % subreddit_name)
+    return result[0] > 0
 
-        fmt = '```' + '\n'.join(subreddit_names) + '```'
-        await ctx.send(fmt)
+  def remove_subreddit(self, subreddit_name: str) -> bool:
+    # TODO
+    return False
+
+  def list_subreddits(self):
+    result = self.bot.db.select_query(LIST_SUBREDDITS)
+    if len(result) == 0:
+      return []
+
+    subreddit_names = []
+    for s in result:
+      subreddit_names.append(s[0])
+    return subreddit_names
 
 def setup(bot):
   bot.add_cog(Memes(bot))
