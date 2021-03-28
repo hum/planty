@@ -7,6 +7,8 @@ from cogs.utils import context
 
 log = logging.getLogger(__name__)
 
+# TODO:
+# Set up help descriptions for all commands
 cog_commands = (
   'cogs.memes',
   'cogs.xkcd',
