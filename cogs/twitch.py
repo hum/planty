@@ -75,6 +75,10 @@ class Twitch(commands.Cog):
     self.streamer_ids = self.get_streamer_ids()
     self.check_is_live.start()
 
+  def cog_unload(self):
+    if self.check_is_live.is_running():
+      self.check_is_live.cancel()
+
   @tasks.loop(minutes=1.0)
   async def check_is_live(self):
     for streamer_id in self.streamer_ids:
