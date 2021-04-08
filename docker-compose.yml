@@ -6,8 +6,10 @@ services:
     env_file:
       - .env
     build: .
+    restart: always
     depends_on:
       - sprout
+      
   sprout:
     image: sprout
     env_file:
