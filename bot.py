@@ -15,7 +15,8 @@ cog_commands = (
   'cogs.hn',
   'cogs.twitch',
   'cogs.message',
-  'cogs.code'
+  'cogs.code',
+  'cogs.music'
 )
 
 class Planty(commands.Bot):
