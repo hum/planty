@@ -6,6 +6,7 @@ import asyncio
 import youtube_dl
 
 FFMPEG_OPTS = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5', 'options': '-vn'}
+YOUTUBE_VIDEO_URL = "https://youtube.com/watch?v="
 
 class Audio:
   def __init__(self):
@@ -62,6 +63,7 @@ class Music(commands.Cog):
     else:
       print('not in vc')
 
+
   @commands.guild_only()
   @commands.command(name='leave')
   async def leave_vc(self, ctx):
@@ -70,11 +72,8 @@ class Music(commands.Cog):
 
   # TODO:
   # Rewrite
-  # 1. Better user input handling
-  # 2. Error handling
-  # 3. YDL error handling
-  # 5. Prettier output to Discord channels -- embeds 
-  # 5. Refactor
+  # 1. YDL error handling
+  # 2. Refactor
   @commands.guild_only()
   @commands.command(name='play')
   async def play_audio(self, ctx, *, query):
@@ -82,7 +81,7 @@ class Music(commands.Cog):
     if not ctx.author.voice:
       # TODO:
       # Give error to the user
-      await ctx.send(embed=self.create_embed(ctx))
+      print('not in vc')
       return
 
     if not ctx.guild.id in self.voice:
@@ -90,20 +89,24 @@ class Music(commands.Cog):
 
     if not self.is_link(query):
       items = self.audio.get_youtube_search(query)["items"]
-      choice = 0
+      choice, menu = 0, None
 
       try:
-        choice = await self.show_menu(ctx, items)
+        choice, menu = await self.show_menu(ctx, items)
 
         if choice < 1 or choice > len(items):
           raise ValueError('`You did not pick a value between 1 and %d. Cancelling.`' % (len(items)))
 
-        query = 'https://youtube.com/watch?v=%s' % (items[choice-1]["id"]["videoId"]) 
+        query = YOUTUBE_VIDEO_URL + items[choice-1]["id"]["videoId"]
       except TimeoutError:
-        await menu.edit(content='`User did not provide any input. Search cancelled.`')
+        embed = Embed(color=Colour.gold())
+        embed.description = '🕐 User [%s] did not provide any input. Search cancelled.' % (ctx.author.mention)
+        await ctx.send(embed=embed)
         return
       except ValueError as e:
-        await ctx.send(e)
+        embed = Embed(color=Colour.gold())
+        embed.description = '❌ User [%s] did not provide a value in the specified range. Search cancelled.' % (ctx.author.mention)
+        await ctx.send(embed=embed)
         return
 
     result = items[choice-1]
@@ -127,11 +130,10 @@ class Music(commands.Cog):
   async def show_menu(self, ctx, items):
     menu = await self.show_options(ctx, items)
     response = await self.bot.wait_for('message', check=lambda msg: msg.author.id == ctx.author.id, timeout=15)
-    return int(response.content)
+    return int(response.content), menu
 
   def play_audio_from_url(self, item):
     data = self.audio.get_audio_info(item["url"])
-    #self.bot.loop.create_task(self.send_now_playing(item))
     self.bot.loop.create_task(item["channel"].send(embed=self.create_embed(item)))
     self.voice[item["guildId"]].play(FFmpegPCMAudio(data["url"], **FFMPEG_OPTS), after=lambda e: self.play_next(e))
 
@@ -150,7 +152,9 @@ class Music(commands.Cog):
       return
 
     if self.queue.is_empty():
-      await ctx.send('Queue is empty')
+      embed = Embed(color=Colour.gold())
+      embed.description = '**No more items in the queue.**'
+      await ctx.send(embed=embed)
 
     self.voice[ctx.guild.id].stop()
     self.play_next()
@@ -187,12 +191,15 @@ class Music(commands.Cog):
 
     for item in items:
       count += 1
-      result += '%d. %s\n' % (count, item["snippet"]["title"])
+      url = YOUTUBE_VIDEO_URL + item["id"]["videoId"]
+      result += '%d. [%s](%s)\n' % (count, item["snippet"]["title"], url)
 
-    return await ctx.send(result)
+    embed = Embed(color=Colour.gold())
+    embed.description = result
+
+    return await ctx.send(embed=embed)
 
   def create_embed(self, item, queue=False):
-    print('creating embed %s' % (item["title"]))
     embed = Embed(color=Colour.gold())
     if queue:
       embed.description = '**Added** [%s](%s) **to the queue.** Requested by [%s]' % (item["title"], item["url"], item["author"].mention) 
