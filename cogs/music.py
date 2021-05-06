@@ -11,7 +11,7 @@ YOUTUBE_VIDEO_URL = "https://youtube.com/watch?v="
 class Audio:
   def __init__(self):
     self.ydl = youtube_dl.YoutubeDL({'format': 'bestaudio', 'noplaylist': 'True'})
-    self.service = build('youtube', 'v3', developerKey='AIzaSyDSxgGg4-tGQx-TD8h69OUkvIuaBX6cWSA')
+    self.service = build('youtube', 'v3', developerKey='')
 
   def get_youtube_search(self, q: str):
     return self.service.search().list(
@@ -158,6 +158,11 @@ class Music(commands.Cog):
 
     self.voice[ctx.guild.id].stop()
     self.play_next()
+
+   @command.guild_only()
+   @commands.command(name='queue')
+   async def show_queue(self, ctx):
+    return
 
   @commands.guild_only()
   @commands.command(name='pause')
