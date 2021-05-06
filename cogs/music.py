@@ -1,7 +1,6 @@
 from discord.ext import commands
 from discord import Embed, Colour, FFmpegPCMAudio
 from googleapiclient.discovery import build
-from asyncio.exceptions import TimeoutError
 import asyncio
 import youtube_dl
 from os import getenv
@@ -27,6 +26,7 @@ class Audio:
     ).execute()
 
   def get_audio_info(self, youtube_link: str):
+    print('link: ', youtube_link)
     return self.ydl.extract_info(youtube_link, download=False)
 
   def close(self):
@@ -93,6 +93,7 @@ class Music(commands.Cog):
     if not self.is_link(query):
       items = self.audio.get_youtube_search(query)["items"]
       choice, menu = 0, None
+      youtube_url = ""
 
       try:
         choice, menu = await self.show_menu(ctx, items)
@@ -100,8 +101,8 @@ class Music(commands.Cog):
         if choice < 1 or choice > len(items):
           raise ValueError('`You did not pick a value between 1 and %d. Cancelling.`' % (len(items)))
 
-        query = YOUTUBE_VIDEO_URL + items[choice-1]["id"]["videoId"]
-      except TimeoutError:
+        youtube_url = YOUTUBE_VIDEO_URL + items[choice-1]["id"]["videoId"]
+      except asyncio.exceptions.TimeoutError:
         embed = Embed(color=Colour.gold())
         embed.description = '🕐 User [%s] did not provide any input. Search cancelled.' % (ctx.author.mention)
         await ctx.send(embed=embed)
@@ -117,7 +118,7 @@ class Music(commands.Cog):
     item = {
       'id': result["id"]["videoId"],
       'title': result["snippet"]["title"],
-      'url': query,
+      'url': youtube_url,
       'img': result["snippet"]["thumbnails"]["default"]["url"],
       'channel': ctx.channel,
       'author': ctx.author,
@@ -162,7 +163,7 @@ class Music(commands.Cog):
     self.voice[ctx.guild.id].stop()
     self.play_next()
 
-  @command.guild_only()
+  @commands.guild_only()
   @commands.command(name='queue')
   async def show_queue(self, ctx):
     return
