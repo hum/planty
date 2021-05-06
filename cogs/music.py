@@ -162,9 +162,9 @@ class Music(commands.Cog):
     self.voice[ctx.guild.id].stop()
     self.play_next()
 
-   @command.guild_only()
-   @commands.command(name='queue')
-   async def show_queue(self, ctx):
+  @command.guild_only()
+  @commands.command(name='queue')
+  async def show_queue(self, ctx):
     return
 
   @commands.guild_only()
