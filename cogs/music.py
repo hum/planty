@@ -4,14 +4,17 @@ from googleapiclient.discovery import build
 from asyncio.exceptions import TimeoutError
 import asyncio
 import youtube_dl
+from os import getenv
 
 FFMPEG_OPTS = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5', 'options': '-vn'}
 YOUTUBE_VIDEO_URL = "https://youtube.com/watch?v="
 
+YOUTUBE_API_KEY = getenv('YOUTUBE_API_KEY')
+
 class Audio:
   def __init__(self):
     self.ydl = youtube_dl.YoutubeDL({'format': 'bestaudio', 'noplaylist': 'True'})
-    self.service = build('youtube', 'v3', developerKey='')
+    self.service = build('youtube', 'v3', developerKey=YOUTUBE_API_KEY)
 
   def get_youtube_search(self, q: str):
     return self.service.search().list(
