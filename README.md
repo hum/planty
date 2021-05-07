@@ -1,5 +1,5 @@
 # Planty
-<p align="center"><img src="https://www.flaticon.com/svg/vstatic/svg/708/708503.svg?token=exp=1615149428~hmac=b14439da90bd0da08e51ec098095fa57" width="200" height="200" /></p>
+<p align="center"><img src="static/planty.png" width="200" height="200" /></p>
 
 ------------------------------------------------------------------------------------------
 
