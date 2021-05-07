@@ -71,7 +71,7 @@ class Music(commands.Cog):
   @commands.command(name='leave')
   async def leave_vc(self, ctx):
     if ctx.guild.id in self.voice:
-      await self.voice.disconnect()
+      await self.voice[ctx.guild.id].disconnect()
 
   # TODO:
   # Rewrite
