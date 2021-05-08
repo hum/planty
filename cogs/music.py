@@ -60,7 +60,7 @@ class Music(commands.Cog):
   @commands.command(name='join')
   async def join_vc(self, ctx):
     if not ctx.author.voice:
-      embed = Embed(colour=Color.gold())
+      embed = Embed(color=Colour.gold())
       embed.description = '**You are not in a voice channel.**'
       await ctx.send(embed=embed)
       return False
@@ -73,6 +73,7 @@ class Music(commands.Cog):
   @commands.command(name='leave')
   async def leave_vc(self, ctx):
     if ctx.guild.id in self.voice:
+      self.voice.pop(ctx.guild.id, None)
       await self.voice[ctx.guild.id].disconnect()
 
   # TODO:
@@ -85,6 +86,9 @@ class Music(commands.Cog):
     if not ctx.guild.id in self.voice:
       if not await self.join_vc(ctx):
         return
+
+    if not self.voice[ctx.guild.id].is_connected():
+      await self.join_vc(ctx)
 
     if not self.is_link(query):
       items = self.audio.get_youtube_search(query)["items"]
@@ -174,7 +178,7 @@ class Music(commands.Cog):
       return
     
     self.voice[ctx.guild.id].pause()
-    embed = Embed(colour=Color.gold())
+    embed = Embed(color=Colour.gold())
     embed.description = '**Paused the audio.**'
     await ctx.send(embed=embed)
 
@@ -188,7 +192,7 @@ class Music(commands.Cog):
       return
 
     self.voice[ctx.guild.id].resume()
-    embed = Embed(colour=Color.gold())
+    embed = Embed(color=Colour.gold())
     embed.description = '**Resumed the audio.**'
     await ctx.send(embed=embed)
 
