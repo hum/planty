@@ -26,7 +26,6 @@ class Audio:
     ).execute()
 
   def get_audio_info(self, youtube_link: str):
-    print('link: ', youtube_link)
     return self.ydl.extract_info(youtube_link, download=False)
 
   def close(self):
@@ -80,11 +79,10 @@ class Music(commands.Cog):
   @commands.guild_only()
   @commands.command(name='play')
   async def play_audio(self, ctx, *, query):
-    print(query)
     if not ctx.author.voice:
-      # TODO:
-      # Give error to the user
-      print('not in vc')
+      embed = Embed(colour=Color.gold())
+      embed.description = '**You are not in a voice channel.**'
+      await ctx.send(embed=embed)
       return
 
     if not ctx.guild.id in self.voice:
