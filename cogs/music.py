@@ -173,9 +173,10 @@ class Music(commands.Cog):
     if not self.voice[ctx.guild.id].is_playing():
       return
     
-    # TODO:
-    # Show message in channel
     self.voice[ctx.guild.id].pause()
+    embed = Embed(colour=Color.gold())
+    embed.description = '**Paused the audio.**'
+    await ctx.send(embed=embed)
 
   @commands.guild_only()
   @commands.command(name='resume')
@@ -186,9 +187,10 @@ class Music(commands.Cog):
     if self.voice[ctx.guild.id].is_playing():
       return
 
-    # TODO:
-    # Show message in channel
     self.voice[ctx.guild.id].resume()
+    embed = Embed(colour=Color.gold())
+    embed.description = '**Resumed the audio.**'
+    await ctx.send(embed=embed)
 
   async def show_options(self, ctx, items):
     result = ""
