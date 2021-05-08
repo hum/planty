@@ -59,13 +59,16 @@ class Music(commands.Cog):
   @commands.guild_only()
   @commands.command(name='join')
   async def join_vc(self, ctx):
-    if ctx.author.voice:
-      channel = ctx.author.voice.channel
-      self.voice[ctx.guild.id] = await channel.connect()
-    else:
-      print('not in vc')
+    if not ctx.author.voice:
+      embed = Embed(colour=Color.gold())
+      embed.description = '**You are not in a voice channel.**'
+      await ctx.send(embed=embed)
+      return False
 
-
+    channel = ctx.author.voice.channel
+    self.voice[ctx.guild.id] = await channel.connect()
+    return True
+      
   @commands.guild_only()
   @commands.command(name='leave')
   async def leave_vc(self, ctx):
@@ -79,14 +82,9 @@ class Music(commands.Cog):
   @commands.guild_only()
   @commands.command(name='play')
   async def play_audio(self, ctx, *, query):
-    if not ctx.author.voice:
-      embed = Embed(colour=Color.gold())
-      embed.description = '**You are not in a voice channel.**'
-      await ctx.send(embed=embed)
-      return
-
     if not ctx.guild.id in self.voice:
-      await self.join_vc(ctx)
+      if not await self.join_vc(ctx):
+        return
 
     if not self.is_link(query):
       items = self.audio.get_youtube_search(query)["items"]
