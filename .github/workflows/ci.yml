@@ -39,7 +39,7 @@ jobs:
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.KEY }}
         port: ${{ secrets.PORT }}
-        command_timeout: "20m"
+        command_timeout: "40m"
         script: |
           cd projects/planty
           git pull
