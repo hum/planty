@@ -5,7 +5,7 @@
 
 A personal bot for my server. This repo is intended only for educational purposes.
 ## TODO:
-  - [ ] Set up proper permission system for cogs
+  - [x] Set up proper permission system for cogs
   - [ ] Database migration script
   - [ ] String sanitization for database queries
   - [ ] Proper thread-safe requests
@@ -16,12 +16,13 @@ A personal bot for my server. This repo is intended only for educational purpose
 The available cogs are only ad-hoc solutions.
 ```bash
   /cogs
-      hn.py      # Fetches Hackernews stories
-      memes.py   # Fetches images from DB
-      xkcd.py    # Fetches images from the XKCD API
-      twitch.py  # Notifies users whenever a certain streamer goes live
-      code.py    # Returns code for the specified command
-      message.py # Prunes and snipes messages
+      hn.py       # Fetches Hackernews stories
+      memes.py    # Fetches images from DB
+      xkcd.py     # Fetches images from the XKCD API
+      twitch.py   # Notifies users whenever a certain streamer goes live
+      code.py     # Returns code for the specified command
+      message.py  # Prunes and snipes messages
+      music.py    # Play music
 ```
 
 ### Commands
@@ -44,6 +45,9 @@ All available commands for Planty
   - snipe             # shows the last deleted message
   - prune             # deletes (default=1) messages posted in the chat
   - source [command]  # returns the code and the link for the specific command 
+  - play [song/url]   # play a song in a specific voice channel
+  - pause/resume    # pause or resume currently playing song
+  - join/leave      # join or leave a voice channel
 ```
 
 ### Setup configuration
