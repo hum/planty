@@ -8,22 +8,7 @@ A personal bot for my server. This repo is intended only for educational purpose
   - [x] Set up proper permission system for cogs
   - [ ] Database migration script
   - [ ] String sanitization for database queries
-  - [ ] Proper thread-safe requests
   - [ ] Rate limiting
-  - [ ] Caching 
-
-### Cogs
-The available cogs are only ad-hoc solutions.
-```bash
-  /cogs
-      hn.py       # Fetches Hackernews stories
-      memes.py    # Fetches images from DB
-      xkcd.py     # Fetches images from the XKCD API
-      twitch.py   # Notifies users whenever a certain streamer goes live
-      code.py     # Returns code for the specified command
-      message.py  # Prunes and snipes messages
-      music.py    # Play music
-```
 
 ### Commands
 All available commands for Planty
@@ -51,17 +36,7 @@ All available commands for Planty
 ```
 
 ### Setup configuration
-The setup only requires to specify the Discord token in the `config.py` file. Along with `TWITCH_CLIENT_ID`, `TWITCH_AUTHORIZATON`, and `POSTGRE_URI` tokens in the `.env` file. Or as an ENVIRONMENT variable if you don't plan to run it in a docker instance.
-
-```ini
-# config.py
-TOKEN       = "" # discord bot token
-
-# .env file or export as ENV variable
-TWITCH_CLIENT_ID=5593daz4asdqrewqgxzxcz         # Will be used by Sprout-img instead SoonTM
-TWITCH_AUTHORIZATION=Bearer fga852s4a56ad4aa6   # Will be used by Sprout-img instead SoonTM
-POSTGRE_URI=postgres://user:password@host:port/db_name?sslmode=disable
-```
+The setup only requires to specify the Discord token in the `config.py` file. Along with all values specified in the `.env` file. Or as an ENVIRONMENT variables if you don't plan to run it in a docker instance.
 
 ## Starting Planty
 ```bash
@@ -79,25 +54,20 @@ If you want to set up [Sprout-img](https://github.com/hum/sprout-img) instance a
 
 ```ini
 # .env
-
 REDDIT_USERNAME=username
 REDDIT_PASSWORD=password
 REDDIT_CLIENT_SECRET=d-qwerty15AsesdsxaE5sa
 REDDIT_CLIENT_ID=D45sx2-d4xayt
 REDDIT_USER_AGENT=Darwin:github.com/hum/sprout-img:0.0.2 (by /u/username)
-
-# already set
-POSTGRE_URI=postgres://user:password@host:port/db_name?sslmode=disable
 ```
 
 #### Run
 ```bash
-# assumes a built binary (name: sprout-img) for Sprout in 'planty/sprout-img/build'
 > cd planty
 > docker-compose up --build -d 
 ```
 
-### Building Sprout from source
+### Building Sprout-img from source
 ```bash
 # alternatively clone from 'github.com/hum/sprout-img' codebase
 > cd planty/sprout-img/sprout-img
@@ -107,4 +77,6 @@ POSTGRE_URI=postgres://user:password@host:port/db_name?sslmode=disable
 ```
 
 ### Running Db
-```🌱 TODO.```
+```🌱 TODO: Include migration script```
+
+Planty works without a database, for now. The only use for a DB is to save images from the `sprout-img` instance. If you don't have a use for that, there's no need to set up a database.
