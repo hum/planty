@@ -49,9 +49,9 @@ class Music(commands.Cog):
   def __init__(self, bot):
     self.bot = bot
     self.audio = Audio()
-    self.queue = Queue()
     self.voice = {}   
     self.current_song = {}
+    self.queue = {}
 
   def cog_unload(self):
     self.audio.close()
@@ -86,9 +86,11 @@ class Music(commands.Cog):
     if not ctx.guild.id in self.voice:
       if not await self.join_vc(ctx):
         return
+      self.queue[ctx.guild.id] = Queue()
 
     if not self.voice[ctx.guild.id].is_connected():
       await self.join_vc(ctx)
+      self.queue[ctx.guild.id] = Queue()
 
     if not self.is_link(query):
       items = self.audio.get_youtube_search(query)["items"]
@@ -127,7 +129,7 @@ class Music(commands.Cog):
 
     if self.voice[ctx.guild.id].is_playing():
       await ctx.send(embed=self.create_embed(item, queue=True))
-      self.queue.enqueue(item)
+      self.queue[ctx.guild.id].enqueue(item)
     else:
       self.play_audio_from_url(item)
 
@@ -139,11 +141,11 @@ class Music(commands.Cog):
   def play_audio_from_url(self, item):
     data = self.audio.get_audio_info(item["url"])
     self.bot.loop.create_task(item["channel"].send(embed=self.create_embed(item)))
-    self.voice[item["guildId"]].play(FFmpegPCMAudio(data["url"], **FFMPEG_OPTS), after=lambda e: self.play_next(e))
+    self.voice[item["guildId"]].play(FFmpegPCMAudio(data["url"], **FFMPEG_OPTS), after=lambda e: self.play_next(item["guildId"]))
 
-  def play_next(self, e=None):
-    if not self.queue.is_empty():
-      item = self.queue.dequeue()
+  def play_next(self, guildId: str):
+    if not self.queue[guildId].is_empty():
+      item = self.queue[guildId].dequeue()
       self.play_audio_from_url(item)
       
   @commands.guild_only()
@@ -155,13 +157,13 @@ class Music(commands.Cog):
     if not self.voice[ctx.guild.id].is_playing():
       return
 
-    if self.queue.is_empty():
+    if self.queue[ctx.guild.id].is_empty():
       embed = Embed(color=Colour.gold())
       embed.description = '**No more items in the queue.**'
       await ctx.send(embed=embed)
 
     self.voice[ctx.guild.id].stop()
-    self.play_next()
+    self.play_next(ctx.guild.id)
 
   @commands.guild_only()
   @commands.command(name='queue')
