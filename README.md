@@ -79,4 +79,4 @@ REDDIT_USER_AGENT=Darwin:github.com/hum/sprout-img:0.0.2 (by /u/username)
 ### Running Db
 ```🌱 TODO: Include migration script```
 
-Planty works without a database, for now. The only use for a DB is to save images from the `sprout-img` instance. If you don't have a use for that, there's no need to set up a database.
+Planty works without a database, for now. The only use for a DB is to save images from the `sprout-img` instance and to store Twitch streamers to monitor. If you don't have a use for that, there's no need to set up a database.
