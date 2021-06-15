@@ -6,9 +6,9 @@ from os import getenv
 import struct
 import asyncio
 
-RCON_IP = os.getenv('RCON_IP')
-RCON_PORT = os.getenv('RCON_PORT')
-RCON_PASS = os.getenv('RCON_PASS')
+RCON_IP = getenv('RCON_IP')
+RCON_PORT = getenv('RCON_PORT')
+RCON_PASS = getenv('RCON_PASS')
 
 class PacketType(IntEnum):
   LOGIN = 3
