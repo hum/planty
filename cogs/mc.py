@@ -98,6 +98,11 @@ class Minecraft(commands.Cog):
   async def check_messages(self):
     cmd_name = "logloglogloglog"
     response, _ = await self.rcon.send_cmd(cmd_name)
+
+    if len(response) == 0:
+      await self.rcon.init()
+      return
+
     if not cmd_name in response:
       await self.channel.send(response)
 
