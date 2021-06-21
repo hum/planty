@@ -97,9 +97,15 @@ class Minecraft(commands.Cog):
   @tasks.loop(seconds=1.0)
   async def check_messages(self):
     cmd_name = "logloglogloglog"
-    response, _ = await self.rcon.send_cmd(cmd_name)
-    if not cmd_name in response:
-      await self.channel.send(response)
+    try:
+      response, _ = await self.rcon.send_cmd(cmd_name)
+      if not cmd_name in response:
+        await self.channel.send(response)
+    except RuntimeError as e:
+      # TODO:
+      # Log this properly, for now only print to test if it fails
+      print(e)
+      return
 
   @checks.is_admin()
   @commands.guild_only()
