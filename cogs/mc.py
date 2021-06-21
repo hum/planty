@@ -112,6 +112,9 @@ class Minecraft(commands.Cog):
       # Log this properly, for now only print to test if it fails
       print(e)
       return
+    except struct.error as e:
+      print(e)
+      return
 
   @checks.is_admin()
   @commands.guild_only()
