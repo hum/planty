@@ -64,8 +64,6 @@ class Rcon:
   async def send_cmd(self, cmd):
     return await self._send_payload(PacketType.COMMAND, cmd)
 
-
-
 class Minecraft(commands.Cog):
   def __init__(self, bot):
     self.bot = bot
@@ -107,13 +105,16 @@ class Minecraft(commands.Cog):
     
       if not cmd_name in response:
         await self.channel.send(response)
+    # TODO:
+    # Log this properly, for now only print to test if it fails
     except RuntimeError as e:
-      # TODO:
-      # Log this properly, for now only print to test if it fails
-      print(e)
+      print('runtime error:', e)
       return
     except struct.error as e:
-      print(e)
+      print('struct error: ', e)
+      return
+    except Exception as e:
+      print('general error catch: ', e)
       return
 
   @checks.is_admin()
@@ -129,6 +130,8 @@ class Minecraft(commands.Cog):
     if self.check_messages.is_running():
       self.check_messages.cancel()
 
+  # TODO:
+  # Do proper text trimming from user input
   def create_message_format(self, author: str, message: str):
     payload = 'tellraw @a [{"text":"<"}, '
     payload +=  '{"text": "%s", "color":"blue"}, '
